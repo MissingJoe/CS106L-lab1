@@ -27,8 +27,10 @@ using std::unordered_map;   using std::unordered_set;
 // BEGIN STUDENT CODE HERE
 bool valid_wikilink(const string& link) {
     // replace these lines!
-    (void) link;
-    throw std::invalid_argument("Not implemented yet.\n");
+    if (std::all_of(link.begin(), link.end(), [](const char& s) {return s != '#';} ) 
+    && std::all_of(link.begin(), link.end(), [](const char& s) {return s != ':';} )) 
+        return true;
+    return false;
 }
 // END STUDENT CODE HERE
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +55,10 @@ unordered_set<string> findWikiLinks(const string& inp) {
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         // BEGIN STUDENT CODE HERE
         // Please delete this line when you start working!
-        throw std::invalid_argument("Not implemented yet.\n");
+        //throw std::invalid_argument("Not implemented yet.\n");
+        url_start = std::search(url_start, end, delim.begin(), delim.end());
+        if (url_start == end) 
+            break;
         // END STUDENT CODE HERE
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +71,7 @@ unordered_set<string> findWikiLinks(const string& inp) {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         // BEGIN STUDENT CODE HERE (delete/edit this line)
-        auto url_end = url_start;
+        auto url_end = std::find(url_start + 6, end, '\"');
         // END STUDENT CODE HERE
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +82,7 @@ unordered_set<string> findWikiLinks(const string& inp) {
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         // BEGIN STUDENT CODE HERE (delete/edit this line)
-        string link;
+        string link(inp, url_start + 12 - inp.begin(), url_end - url_start - 12);
         // END STUDENT CODE HERE
         ///////////////////////////////////////////////////////////////////////////////////////////////////
 
